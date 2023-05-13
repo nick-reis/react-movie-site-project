@@ -7,7 +7,7 @@ import ScrollToTop from "./components/scrollToTop.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <HashRouter>
+    <HashRouter basename="/react-movie-site-project/#">
       <ScrollToTop />
       <App />
     </HashRouter>
