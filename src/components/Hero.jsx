@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { movieRequests, imageRequests } from "../Requests";
+import { movieRequests, imageRequests, miscRequest } from "../Requests";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { useGlobalState } from "../Requests";
 
 const Hero = () => {
+  const [movie_type] = useGlobalState("mType");
   const [movies, setMovies] = useState([]);
 
-  const movie = movies[Math.floor(Math.random() * movies.length)];
-
   useEffect(() => {
-    axios.get(movieRequests.requestPopular).then((response) => {
+    axios.get(movieRequests.requestPopular(movie_type)).then((response) => {
       setMovies(response.data.results);
     });
   }, []);
+
+  const movie = movies[Math.floor(Math.random() * movies.length)];
 
   console.log(movie);
 
@@ -23,12 +25,13 @@ const Hero = () => {
         <img
           className="w-full h-full object-cover"
           src={imageRequests.originalImage + movie?.backdrop_path}
-          alt={movie?.title}
+          alt={miscRequest.requestTitle(movie_type, movie)}
         />
         <div>
           <div className="absolute w-full top-[40%] p-4 md:p-8">
             <h1 className="text-3xl md:text-4xl py-2 px-1 font-bold">
-              {movie?.title}
+              {miscRequest.requestTitle(movie_type, movie)}
+              {}
             </h1>
             {/* <p className="w-full md:max-w-[70%] lg:max-w-[50%] xl:max-w-[35%] text-gray-200">
               {movie?.overview}

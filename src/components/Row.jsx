@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import { movieRequests } from "../Requests";
 import Movie from "./Movie";
 import { MdChevronRight, MdChevronLeft } from "react-icons/md";
+import { useGlobalState } from "../Requests";
 
-const Row = ({ title, fetchURL, rowID }) => {
+const Row = ({ title, fetchURL, rowID, horizontal }) => {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
@@ -22,9 +23,10 @@ const Row = ({ title, fetchURL, rowID }) => {
     slider.scrollLeft = slider.scrollLeft + 500;
   };
 
-  return (
-    <>
-      <h2 className="text-white font-bold md: text-xl p-4">{title}</h2>
+  let renderRow;
+
+  if (horizontal == true) {
+    renderRow = (
       <div className="relative flex items-center group">
         <MdChevronLeft
           onClick={slideLeft}
@@ -35,9 +37,13 @@ const Row = ({ title, fetchURL, rowID }) => {
           id={"slider" + rowID}
           className="w-full h-full overflow-x-scroll whitespace-nowrap scroll-smooth scrollbar-hide"
         >
-          {movies?.map((item, id) => (
-            <Movie key={id} item={item} />
-          ))}
+          {movies?.map((item, id) =>
+            item?.poster_path == null ||
+            item?.backdrop_path == null ||
+            item?.overview == null ? null : (
+              <Movie key={id} item={item} />
+            )
+          )}
         </div>
         <MdChevronRight
           onClick={slideRight}
@@ -45,6 +51,30 @@ const Row = ({ title, fetchURL, rowID }) => {
           size={40}
         />
       </div>
+    );
+  } else if (horizontal == false) {
+    renderRow = (
+      <div className="relative flex items-center group">
+        <div
+          id={"slider" + rowID}
+          className="w-full h-full overflow-x-scroll scroll-smooth scrollbar-hide"
+        >
+          {movies?.map((item, id) =>
+            item?.poster_path == null ||
+            item?.backdrop_path == null ||
+            item?.overview == null ? null : (
+              <Movie key={id} item={item} />
+            )
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <h2 className="text-white font-bold md: text-xl p-4">{title}</h2>
+      {renderRow}
     </>
   );
 };
