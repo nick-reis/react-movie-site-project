@@ -7,9 +7,9 @@ import ScrollToTop from "./components/scrollToTop.js";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <BrowserRouter basename="/react-movie-site-project/">
+    <HashRouter basename="/react-movie-site-project/">
       <ScrollToTop />
       <App />
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
