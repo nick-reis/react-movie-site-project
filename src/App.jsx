@@ -10,7 +10,7 @@ export default function App() {
     <>
       <Navbar></Navbar>
       <Routes>
-        <Route path="/react-movie-site-project" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/:id" element={<MoviePage />} />
         <Route path="/search/:id" element={<Search />} />
       </Routes>
